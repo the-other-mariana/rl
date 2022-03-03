@@ -1,0 +1,32 @@
+Instalación de Python:
+NOTA: TensorFlow solo funciona con python 3.8
+
+ 0. Instalar Python seleccionando la casilla que pide agregar la ruta de python al PATH
+ 1. Verificar que las siguientes 2 rutas esten en la variable PATH de windows:
+      C:\Users\José Abdón\AppData\Local\Programs\Python\Python38\Scripts\
+      C:\Users\José Abdón\AppData\Local\Programs\Python\Python38\
+ 2. Ruta de Python=C:\Users\José Abdón\AppData\Local\Programs\Python\Python38
+ 3. WINDOWS> python --version ..... muestra la versión de Python
+ 4. WINDOWS> pip --version ........ muestra la versión de pip
+ 5. WINDOWS> pip .................. muestra la ayuda de pip
+ 6. Instalar Spyder
+    Configuracion: Cambiar el interprete de python
+      1. Herramientas->Preferencias
+      2. Interprete de Python->Usar el siguiente interprete: C:\Users\José Abdón\AppData\Local\Programs\Python\Python39\python.exe
+
+ 7. WINDOWS> pip install tensorflow
+ 8. WINDOWS> pip install numpy
+ 9. WINDOWS> pip install scipy 
+10. WINDOWS> pip install matplotlib
+11. WINDOWS> pip install pandas
+12. WINDOWS> pip install scikit-learn
+13. WINDOWS> pip install torch==1.7.1+cpu torchvision==0.8.2+cpu torchaudio===0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+14. WINDOWS> pip install opencv-python
+15. WINDOWS> pip install gym
+16. WINDOWS> pip install -f https://github.com/Kojoley/atari-py/releases atari_py
+17. WINDOWS> pip install Box2D
+
+PYTHON 2.7: NOTA: Es necesario para correr el programa worldgrid.py the Berkeley
+ 1. Instalar python 2.7 en c:\python27
+ 2. Cambiar el nombre: c:\python27\python.exe->c:\python27\python27.exe (NOTA: Es para que no interfiera con python 3.8)
+ 3. Ejecutar el python como: c:\python27\python27 <programa.py>
