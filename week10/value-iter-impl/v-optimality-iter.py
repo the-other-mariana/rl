@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # global variables
-deterministic = True
-gamma = 0.9
+deterministic = False
+gamma = 0.6
 actions = 2
-states = 4
-eps = 0.1
+states = 3
+eps = 0.01
 
 def print_head(iter, fr, names_s):
     print("==========================")
@@ -31,7 +31,7 @@ def plot_figs(fig, states, xs, ys, axes, names_s):
         axes[s].set_title(f"V({names_s[s]})")
         axes[s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max*0.05))
     fig.tight_layout()
-    plt.savefig('v-hw-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('v-hw2-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
@@ -108,35 +108,19 @@ if deterministic:
     plot_figs(fig, states, xs, ys, axes, names_s)
 else:
     pmt = [
-           [[0.0, 0.0],
-            [0.8, 0.2],
+           [[0.4, 0.2],
+            [0.5, 0.0],
+            [1.0, 0.3]],
+           [[0.5, 0.8],
             [0.0, 0.0],
-            [0.2, 0.8],
-            [0.0, 0.0]],
-           [[0.2, 0.8],
-            [0.0, 0.0],
-            [0.8, 0.2],
-            [0.0, 0.0],
-            [0.0, 0.0]],
-           [[0.0, 0.0],
-            [0.2, 0.8],
-            [0.0, 0.0],
-            [0.0, 0.0],
-            [0.8, 0.2]],
-           [[0.8, 0.2],
-            [0.0, 0.0],
-            [0.0, 0.0],
-            [0.8, 0.2],
-            [0.0, 0.0]],
-           [[0.0, 0.0],
-            [0.0, 0.0],
-            [0.2, 0.8],
-            [0.0, 0.0],
-            [0.2, 0.8]],
+            [0.0, 0.6]],
+           [[0.1, 0.0],
+            [0.5, 1.0],
+            [0.0, 0.1]]
            ]
     pmt = np.array(pmt)
-    fr = [-10, 0, -0.04, -0.04, 10]
-    names_s = ['sF1', 's1', 's2', 's3', 'sF4']
+    fr = [2, 1, -1]
+    names_s = ['s1', 's2', 's3']
     names_a = ['a1', 'a2']
     print("pmt:")
     print(pmt)
