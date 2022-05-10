@@ -1,6 +1,8 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-deterministic = True
+# global variables
+deterministic = False
 gamma = 0.9
 actions = 2
 states = 5
@@ -20,6 +22,16 @@ def print_vs(vs):
         print("{:.2f}".format(val[0]), end='\t')
     print()
 
+def plot_figs(fig, states, xs, ys, axes):
+    y_max = max([max(ys[s]) for s in range(states)])
+    for s in range(states):
+        axes[s].plot(xs[s], ys[s], 'o', linestyle='-')
+        axes[s].set_title(f"V(s{s})")
+        axes[s].set_ylim(-y_max*0.05, y_max + (y_max*0.05))
+    fig.tight_layout()
+    plt.savefig('v-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.show()
+
 if deterministic:
 
     fmt = [[0, 1],
@@ -38,7 +50,15 @@ if deterministic:
     delta = [1000000 for s in range(states)]
     done = [False for s in range(states)]
     iter = 1
+
+    fig = plt.figure( figsize=(18,3) )
+    axes = fig.subplots(1, states)
+    xs = [[] for i in range(states)]
+    ys = [[] for i in range(states)]
+
+
     while(True):
+
         # stop condition
         for d in range(states):
             if delta[d] < eps:
@@ -49,6 +69,9 @@ if deterministic:
         # print head and current vs
         print_head(iter, fr)
         print_vs(vs)
+        for s in range(states):
+            xs[s].append(iter)
+            ys[s].append(vs[s][0])
 
         # calculate v(s) for each s
         for s in range(states):
@@ -79,6 +102,7 @@ if deterministic:
     for i in range(states):
         print(f"s{i} = a{vs[i][1]},", end='\t')
     print()
+    plot_figs(fig, states, xs, ys, axes)
 else:
     pmt = [
            [[0.0, 0.0],
@@ -110,8 +134,7 @@ else:
     pmt = np.array(pmt)
     fr = [-10, 0, -0.04, -0.04, 10]
     print("pmt:")
-    for i in range(len(pmt)):
-        print(pmt[i],end='\t')
+    print(pmt)
     print()
     print("fr:")
     print(fr)
@@ -120,6 +143,11 @@ else:
     delta = [1000000 for s in range(states)]
     done = [False for s in range(states)]
     iter = 1
+
+    fig = plt.figure(figsize=(18, 3))
+    axes = fig.subplots(1, states)
+    xs = [[] for i in range(states)]
+    ys = [[] for i in range(states)]
     while (True):
         # stop condition
         for d in range(states):
@@ -131,6 +159,9 @@ else:
         # print head and current vs
         print_head(iter, fr)
         print_vs(vs)
+        for s in range(states):
+            xs[s].append(iter)
+            ys[s].append(vs[s][0])
 
         # calculate v(s) for each s
         for s in range(states):
@@ -161,3 +192,4 @@ else:
     for i in range(states):
         print(f"s{i} = a{vs[i][1]},", end='\t')
     print()
+    plot_figs(fig, states, xs, ys, axes)
