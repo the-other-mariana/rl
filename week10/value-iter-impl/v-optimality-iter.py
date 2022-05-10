@@ -17,6 +17,7 @@ def print_head(iter, fr):
     print()
 
 def print_vs(vs):
+    print("V(s)")
     for i in range(len(vs)):
         val = vs[i]
         print("{:.2f}".format(val[0]), end='\t')
@@ -24,10 +25,11 @@ def print_vs(vs):
 
 def plot_figs(fig, states, xs, ys, axes):
     y_max = max([max(ys[s]) for s in range(states)])
+    y_min = min([min(ys[s]) for s in range(states)])
     for s in range(states):
         axes[s].plot(xs[s], ys[s], 'o', linestyle='-')
         axes[s].set_title(f"V(s{s})")
-        axes[s].set_ylim(-y_max*0.05, y_max + (y_max*0.05))
+        axes[s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max*0.05))
     fig.tight_layout()
     plt.savefig('v-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
