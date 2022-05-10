@@ -5,47 +5,48 @@ import matplotlib.pyplot as plt
 deterministic = True
 gamma = 0.9
 actions = 2
-states = 5
+states = 4
 eps = 0.1
 
-def print_head(iter, fr):
+def print_head(iter, fr, names_s):
     print("==========================")
-    print(f"iteration {iter}:")
+    print(f"Iteration {iter}:")
     print("fr:", fr)
     for i in range(len(list(fr))):
-        print(i, end='\t')
+        print(names_s[i], end='\t')
     print()
 
-def print_qsa(vs):
-    print("Q(s,a)")
+def print_qsa(qsa, msg):
+    print("Q(s,a)", msg)
     for a in range(len(qsa)):
         for s in range(len(qsa[0])):
             val = qsa[a][s]
             print("{:.2f}".format(val), end='\t')
         print()
 
-def plot_figs(fig, states, actions, xs, ys, axes):
+def plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a):
     y_max = max([max(ys[s]) for s in range(states * actions)])
     y_min = min([min(ys[s]) for s in range(states * actions)])
     for a in range(actions):
         for s in range(states):
             idx = (a * states) + s
             axes[a, s].plot(xs[idx], ys[idx], 'o', linestyle='-')
-            axes[a, s].set_title(f"Q(s{s}, a{a})")
+            axes[a, s].set_title(f"Q({names_s[s]}, {names_a[a]})")
             axes[a, s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max * 0.05))
     fig.tight_layout()
-    plt.savefig('q-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('q-hw1-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
 
-    fmt = [[0, 1],
+    fmt = [[1, 1],
            [0, 2],
-           [1, 3],
-           [2, 4],
-           [3, 4]]
+           [2, 0],
+           [0, 3]]
     fmt = np.array(fmt)
-    fr = [-10, 0, -0.04, -0.04, 10]
+    fr = [2, 1, -1, 10]
+    names_s = ['s1', 's2', 's3', 's4']
+    names_a = ['a1', 'a2']
     print("fmt:")
     print(fmt)
     print("fr:")
@@ -73,8 +74,8 @@ if deterministic:
             break
 
         # print head and current qsa
-        print_head(iter, fr)
-        print_qsa(qsa)
+        print_head(iter, fr, names_s)
+        print_qsa(qsa, 'current')
         for a in range(actions):
             for s in range(states):
                 xs[(a * states) + s].append(iter)
@@ -97,16 +98,16 @@ if deterministic:
                 # update v for next iteration
                 qsa[ai][si] = q
         # print new vs
-        print_qsa(qsa)
+        print_qsa(qsa, 'new')
         iter += 1
 
     print("Optimal Politic:")
     for i in range(states):
         # take max of the column in state s
         action = max(list(qsa[:, i]))
-        print(f"s{i} = a{list(qsa[:, i]).index(action)},", end='\t')
+        print(f"{names_s[i]} = {names_a[list(qsa[:, i]).index(action)]},", end='\t')
     print()
-    plot_figs(fig, states, actions, xs, ys, axes)
+    plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a)
 else:
     pmt = [
            [[0.0, 0.0],

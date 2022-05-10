@@ -2,47 +2,48 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # global variables
-deterministic = False
+deterministic = True
 gamma = 0.9
 actions = 2
-states = 5
+states = 4
 eps = 0.1
 
-def print_head(iter, fr):
+def print_head(iter, fr, names_s):
     print("==========================")
-    print(f"iteration {iter}:")
+    print(f"Iteration {iter}:")
     print("fr:", fr)
     for i in range(len(list(fr))):
-        print(i, end='\t')
+        print(names_s[i], end='\t')
     print()
 
-def print_vs(vs):
-    print("V(s)")
+def print_vs(vs, msg):
+    print("V(s)", msg)
     for i in range(len(vs)):
         val = vs[i]
         print("{:.2f}".format(val[0]), end='\t')
     print()
 
-def plot_figs(fig, states, xs, ys, axes):
+def plot_figs(fig, states, xs, ys, axes, names_s):
     y_max = max([max(ys[s]) for s in range(states)])
     y_min = min([min(ys[s]) for s in range(states)])
     for s in range(states):
         axes[s].plot(xs[s], ys[s], 'o', linestyle='-')
-        axes[s].set_title(f"V(s{s})")
+        axes[s].set_title(f"V({names_s[s]})")
         axes[s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max*0.05))
     fig.tight_layout()
-    plt.savefig('v-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('v-hw-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
 
-    fmt = [[0, 1],
+    fmt = [[1, 1],
            [0, 2],
-           [1, 3],
-           [2, 4],
-           [3, 4]]
+           [2, 0],
+           [0, 3]]
     fmt = np.array(fmt)
-    fr = [-10, 0, -0.04, -0.04, 10]
+    fr = [2, 1, -1, 10]
+    names_s = ['s1', 's2', 's3', 's4']
+    names_a = ['a1', 'a2']
     print("fmt:")
     print(fmt)
     print("fr:")
@@ -69,8 +70,8 @@ if deterministic:
             break
 
         # print head and current vs
-        print_head(iter, fr)
-        print_vs(vs)
+        print_head(iter, fr, names_s)
+        print_vs(vs, 'current')
         for s in range(states):
             xs[s].append(iter)
             ys[s].append(vs[s][0])
@@ -97,14 +98,14 @@ if deterministic:
             vs[s] = v
 
         # print new vs
-        print_vs(vs)
+        print_vs(vs, 'new')
 
         iter += 1
     print("Optimal Politic:")
     for i in range(states):
-        print(f"s{i} = a{vs[i][1]},", end='\t')
+        print(f"{names_s[i]} = {names_a[vs[i][1]]},", end='\t')
     print()
-    plot_figs(fig, states, xs, ys, axes)
+    plot_figs(fig, states, xs, ys, axes, names_s)
 else:
     pmt = [
            [[0.0, 0.0],
@@ -135,6 +136,8 @@ else:
            ]
     pmt = np.array(pmt)
     fr = [-10, 0, -0.04, -0.04, 10]
+    names_s = ['sF1', 's1', 's2', 's3', 'sF4']
+    names_a = ['a1', 'a2']
     print("pmt:")
     print(pmt)
     print()
@@ -159,8 +162,8 @@ else:
             break
 
         # print head and current vs
-        print_head(iter, fr)
-        print_vs(vs)
+        print_head(iter, fr, names_s)
+        print_vs(vs, 'current')
         for s in range(states):
             xs[s].append(iter)
             ys[s].append(vs[s][0])
@@ -187,11 +190,11 @@ else:
             vs[s] = v
 
         # print new vs
-        print_vs(vs)
+        print_vs(vs, 'new')
 
         iter += 1
     print("Optimal Politic:")
     for i in range(states):
-        print(f"s{i} = a{vs[i][1]},", end='\t')
+        print(f"{names_s[i]} = {names_a[vs[i][1]]},", end='\t')
     print()
-    plot_figs(fig, states, xs, ys, axes)
+    plot_figs(fig, states, xs, ys, axes, names_s)
