@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 
 # global variables
 deterministic = False
-gamma = 0.6
-actions = 2
-states = 3
+gamma = 0.7
+actions = 3
+states = 5
 eps = 0.01
 
 def print_head(iter, fr, names_s):
@@ -31,23 +31,55 @@ def plot_figs(fig, states, xs, ys, axes, names_s):
         axes[s].set_title(f"V({names_s[s]})")
         axes[s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max*0.05))
     fig.tight_layout()
-    plt.savefig('v-hw2-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('v-hw4-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
 
-    fmt = [[1, 1],
-           [0, 2],
-           [2, 0],
-           [0, 3]]
+    fmt = [[1, 2, 3],
+           [1, 2, 1],
+           [2, 2, 4],
+           [3, 2, 3],
+           [3, 4, 4]]
     fmt = np.array(fmt)
-    fr = [2, 1, -1, 10]
-    names_s = ['s1', 's2', 's3', 's4']
-    names_a = ['a1', 'a2']
+    #fr = [2, 1, -1, 10]
+    fr = [
+          [[0, 0, 0],
+           [0, 0, 0],
+           [0, 0, 0],
+           [0, 0, 0],
+           [0, 0, 0]],
+        [[-2, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0]],
+        [[0, 5, 0],
+         [0, 4, 0],
+         [0, 0, 0],
+         [0, -1, 0],
+         [0, 0, 0]],
+        [[0, 0, -3],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [1, 0, 0]],
+        [[0, 0, 0],
+         [0, 0, 0],
+         [0, 0, -6],
+         [0, 0, 0],
+         [0, 0, 0]],
+         ]
+    names_s = ['s1', 's2', 's3', 's4', 's5']
+    names_a = ['a1', 'a2', 'a3']
     print("fmt:")
     print(fmt)
     print("fr:")
     print(fr)
+    if len(np.array(fr).shape) == 1:
+        print("simple fr")
+    else:
+        print("complex fr")
 
     vs = [(0.0, 0) for s in range(states)]
     delta = [1000000 for s in range(states)]
@@ -84,7 +116,13 @@ if deterministic:
             # for each v(s) cell, we need maximum taking every action a
             for a in range(actions):
                 sf = fmt[s, a]
-                r = fr[int(sf)]
+                r = 0
+                if len(np.array(fr).shape) == 1:
+                    # simple fr
+                    r = fr[int(sf)]
+                elif len(np.array(fr).shape) > 1:
+                    # complex fr
+                    r = fr[int(sf)][s][a]
                 term = r + gamma * vs[sf][0]
                 terms.append(term)
                 if term > r_max:
@@ -108,25 +146,71 @@ if deterministic:
     plot_figs(fig, states, xs, ys, axes, names_s)
 else:
     pmt = [
-           [[0.4, 0.2],
-            [0.5, 0.0],
-            [1.0, 0.3]],
-           [[0.5, 0.8],
-            [0.0, 0.0],
-            [0.0, 0.6]],
-           [[0.1, 0.0],
-            [0.5, 1.0],
-            [0.0, 0.1]]
-           ]
+        [[0.0, 0.0, 1.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0]],
+        [[0.0, 1.0, 0.0],
+         [1.0, 1.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.2, 0.0],
+         [0.0, 0.0, 0.0]],
+        [[0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.4],
+         [1.0, 1.0, 1.0],
+         [0.0, 0.8, 0.0],
+         [0.0, 0.0, 0.0]],
+        [[0.2, 0.0, 0.0],
+         [0.0, 0.0, 0.3],
+         [0.0, 0.0, 0.0],
+         [1.0, 0.0, 1.0],
+         [0.0, 1.0, 0.0]],
+        [[0.8, 0.0, 0.0],
+         [0.0, 0.0, 0.3],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [1.0, 0.0, 1.0]]
+    ]
     pmt = np.array(pmt)
-    fr = [2, 1, -1]
-    names_s = ['s1', 's2', 's3']
-    names_a = ['a1', 'a2']
-    print("pmt:")
+    #fr = [2, 1, -1]
+    fr = [
+        [[9, 0, 0],
+         [0, 0, 0],
+         [0, 1, 0],
+         [0, 0, -2],
+         [2, 0, 0]],
+        [[-2, 2, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, -3, 0],
+         [0, 0, 0]],
+        [[0, 5, 0],
+         [0, 4, -1],
+         [0, 0, 0],
+         [0, -1, 0],
+         [0, 0, 0]],
+        [[1, 0, -3],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [1, -1, 0]],
+        [[3, 0, 0],
+         [0, 0, 0],
+         [0, 0, -6],
+         [0, 0, 0],
+         [0, 0, 0]],
+    ]
+    names_s = ['s1', 's2', 's3', 's4', 's5']
+    names_a = ['a1', 'a2', 'a3']
+    print("fmt:")
     print(pmt)
-    print()
     print("fr:")
     print(fr)
+    if len(np.array(fr).shape) == 1:
+        print("simple fr")
+    else:
+        print("complex fr")
 
     vs = [(0.0, 0) for s in range(states)]
     delta = [1000000 for s in range(states)]
@@ -163,7 +247,13 @@ else:
                 term = 0.0
                 for sf in range(states):
                     p = pmt[sf, s, a]
-                    r = fr[int(sf)]
+                    r = 0
+                    if len(np.array(fr).shape) == 1:
+                        # simple fr
+                        r = fr[int(sf)]
+                    elif len(np.array(fr).shape) > 1:
+                        # complex fr
+                        r = fr[int(sf)][s][a]
                     term += p * (r + gamma * vs[sf][0])
                 terms.append(term)
                 if term > r_max:

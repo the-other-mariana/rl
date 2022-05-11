@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 
 # global variables
 deterministic = False
-gamma = 0.6
-actions = 2
-states = 3
+gamma = 0.7
+actions = 3
+states = 5
 eps = 0.01
 
 def print_head(iter, fr, names_s):
@@ -34,23 +34,55 @@ def plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a):
             axes[a, s].set_title(f"Q({names_s[s]}, {names_a[a]})")
             axes[a, s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max * 0.05))
     fig.tight_layout()
-    plt.savefig('q-hw2-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('q-hw4-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
 
-    fmt = [[1, 1],
-           [0, 2],
-           [2, 0],
-           [0, 3]]
+    fmt = [[1, 2, 3],
+           [1, 2, 1],
+           [2, 2, 4],
+           [3, 2, 3],
+           [3, 4, 4]]
     fmt = np.array(fmt)
-    fr = [2, 1, -1, 10]
-    names_s = ['s1', 's2', 's3', 's4']
-    names_a = ['a1', 'a2']
+    #fr = [2, 1, -1, 10]
+    fr = [
+        [[0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0]],
+        [[-2, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0]],
+        [[0, 5, 0],
+         [0, 4, 0],
+         [0, 0, 0],
+         [0, -1, 0],
+         [0, 0, 0]],
+        [[0, 0, -3],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [1, 0, 0]],
+        [[0, 0, 0],
+         [0, 0, 0],
+         [0, 0, -6],
+         [0, 0, 0],
+         [0, 0, 0]],
+    ]
+    names_s = ['s1', 's2', 's3', 's4', 's5']
+    names_a = ['a1', 'a2', 'a3']
     print("fmt:")
     print(fmt)
     print("fr:")
     print(fr)
+    if len(np.array(fr).shape) == 1:
+        print("simple fr")
+    else:
+        print("complex fr")
 
     qsa = np.zeros((actions, states), dtype=float)
     delta = 1000000 * np.ones((actions, states), dtype=float)
@@ -61,7 +93,6 @@ if deterministic:
     axes = fig.subplots(actions, states)
     xs = [[] for i in range(states * actions)]
     ys = [[] for i in range(states * actions)]
-
 
     while(True):
 
@@ -85,7 +116,13 @@ if deterministic:
         for ai in range(actions):
             for si in range(states):
                 sf = fmt[si, ai]
-                r = fr[int(sf)]
+                r = 0
+                if len(np.array(fr).shape) == 1:
+                    # simple fr
+                    r = fr[int(sf)]
+                elif len(np.array(fr).shape) > 1:
+                    # complex fr
+                    r = fr[int(sf)][si][ai]
                 terms = []
                 # for each q(s,a) cell, we need maximum taking every action a
                 for a in range(actions):
@@ -110,25 +147,71 @@ if deterministic:
     plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a)
 else:
     pmt = [
-        [[0.4, 0.2],
-         [0.5, 0.0],
-         [1.0, 0.3]],
-        [[0.5, 0.8],
-         [0.0, 0.0],
-         [0.0, 0.6]],
-        [[0.1, 0.0],
-         [0.5, 1.0],
-         [0.0, 0.1]]
+        [[0.0, 0.0, 1.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0]],
+        [[0.0, 1.0, 0.0],
+         [1.0, 1.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.2, 0.0],
+         [0.0, 0.0, 0.0]],
+        [[0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.4],
+         [1.0, 1.0, 1.0],
+         [0.0, 0.8, 0.0],
+         [0.0, 0.0, 0.0]],
+        [[0.2, 0.0, 0.0],
+         [0.0, 0.0, 0.3],
+         [0.0, 0.0, 0.0],
+         [1.0, 0.0, 1.0],
+         [0.0, 1.0, 0.0]],
+        [[0.8, 0.0, 0.0],
+         [0.0, 0.0, 0.3],
+         [0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0],
+         [1.0, 0.0, 1.0]]
     ]
     pmt = np.array(pmt)
-    fr = [2, 1, -1]
-    names_s = ['s1', 's2', 's3']
-    names_a = ['a1', 'a2']
-    print("pmt:")
+    # fr = [2, 1, -1]
+    fr = [
+        [[9, 0, 0],
+         [0, 0, 0],
+         [0, 1, 0],
+         [0, 0, -2],
+         [2, 0, 0]],
+        [[-2, 2, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, -3, 0],
+         [0, 0, 0]],
+        [[0, 5, 0],
+         [0, 4, -1],
+         [0, 0, 0],
+         [0, -1, 0],
+         [0, 0, 0]],
+        [[1, 0, -3],
+         [0, 0, 0],
+         [0, 0, 0],
+         [0, 0, 0],
+         [1, -1, 0]],
+        [[3, 0, 0],
+         [0, 0, 0],
+         [0, 0, -6],
+         [0, 0, 0],
+         [0, 0, 0]],
+    ]
+    names_s = ['s1', 's2', 's3', 's4', 's5']
+    names_a = ['a1', 'a2', 'a3']
+    print("fmt:")
     print(pmt)
-    print()
     print("fr:")
     print(fr)
+    if len(np.array(fr).shape) == 1:
+        print("simple fr")
+    else:
+        print("complex fr")
 
     qsa = np.zeros((actions, states), dtype=float)
     delta = 1000000 * np.ones((actions, states), dtype=float)
@@ -164,7 +247,13 @@ else:
                 q = 0.0
                 for sf in range(states):
                     p = p = pmt[sf, si, ai]
-                    r = fr[int(sf)]
+                    r = 0
+                    if len(np.array(fr).shape) == 1:
+                        # simple fr
+                        r = fr[int(sf)]
+                    elif len(np.array(fr).shape) > 1:
+                        # complex fr
+                        r = fr[int(sf)][si][ai]
 
                     terms = []
                     # for each q(s,a) cell, we need maximum taking every action a
