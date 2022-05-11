@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # global variables
-deterministic = True
-gamma = 0.8
+deterministic = False
+gamma = 0.0
 actions = 2
 states = 5
 eps = 0.01
@@ -34,7 +34,7 @@ def plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a):
             axes[a, s].set_title(f"Q({names_s[s]}, {names_a[a]})")
             axes[a, s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max * 0.05))
     fig.tight_layout()
-    plt.savefig('q-hw5-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('q-hw6-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
@@ -150,34 +150,35 @@ if deterministic:
     plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a)
 else:
     pmt = [
-        [[0.0, 0.0, 1.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0]],
-        [[0.0, 1.0, 0.0],
-         [1.0, 1.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.2, 0.0],
-         [0.0, 0.0, 0.0]],
-        [[0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.4],
-         [1.0, 1.0, 1.0],
-         [0.0, 0.8, 0.0],
-         [0.0, 0.0, 0.0]],
-        [[0.2, 0.0, 0.0],
-         [0.0, 0.0, 0.3],
-         [0.0, 0.0, 0.0],
-         [1.0, 0.0, 1.0],
-         [0.0, 1.0, 0.0]],
-        [[0.8, 0.0, 0.0],
-         [0.0, 0.0, 0.3],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [1.0, 0.0, 1.0]]
+        [[0.2, 0.8],
+         [0.2, 0.8],
+         [0.0, 0.0],
+         [0.0, 0.0],
+         [0.0, 0.0]],
+        [[0.8, 0.2],
+         [0.0, 0.0],
+         [0.2, 0.8],
+         [0.0, 0.0],
+         [0.0, 0.0]],
+        [[0.0, 0.0],
+         [0.8, 0.2],
+         [0.0, 0.0],
+         [0.2, 0.8],
+         [0.0, 0.0]],
+        [[0.0, 0.0],
+         [0.0, 0.0],
+         [0.8, 0.2],
+         [0.0, 0.0],
+         [0.2, 0.8]],
+        [[0.0, 0.0],
+         [0.0, 0.0],
+         [0.0, 0.0],
+         [0.8, 0.2],
+         [0.8, 0.2]]
     ]
     pmt = np.array(pmt)
-    # fr = [2, 1, -1]
+    fr = [-10, 0, -0.4, -0.4, 10]
+    '''
     fr = [
         [[9, 0, 0],
          [0, 0, 0],
@@ -205,8 +206,9 @@ else:
          [0, 0, 0],
          [0, 0, 0]],
     ]
-    names_s = ['s1', 's2', 's3', 's4', 's5']
-    names_a = ['a1', 'a2', 'a3']
+    '''
+    names_s = ['sf1', 's1', 's2', 's3', 'sf2']
+    names_a = ['->', '<-']
     print("fmt:")
     print(pmt)
     print("fr:")
@@ -249,7 +251,7 @@ else:
             for si in range(states):
                 q = 0.0
                 for sf in range(states):
-                    p = p = pmt[sf, si, ai]
+                    p = pmt[sf, si, ai]
                     r = 0
                     if len(np.array(fr).shape) == 1:
                         # simple fr

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # global variables
-deterministic = True
+deterministic = False
 gamma = 0.0
 actions = 2
 states = 5
@@ -31,7 +31,7 @@ def plot_figs(fig, states, xs, ys, axes, names_s):
         axes[s].set_title(f"V({names_s[s]})")
         axes[s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max*0.05))
     fig.tight_layout()
-    plt.savefig('v-hw5-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('v-hw6-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
@@ -148,34 +148,35 @@ if deterministic:
     plot_figs(fig, states, xs, ys, axes, names_s)
 else:
     pmt = [
-        [[0.0, 0.0, 1.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0]],
-        [[0.0, 1.0, 0.0],
-         [1.0, 1.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.2, 0.0],
-         [0.0, 0.0, 0.0]],
-        [[0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.4],
-         [1.0, 1.0, 1.0],
-         [0.0, 0.8, 0.0],
-         [0.0, 0.0, 0.0]],
-        [[0.2, 0.0, 0.0],
-         [0.0, 0.0, 0.3],
-         [0.0, 0.0, 0.0],
-         [1.0, 0.0, 1.0],
-         [0.0, 1.0, 0.0]],
-        [[0.8, 0.0, 0.0],
-         [0.0, 0.0, 0.3],
-         [0.0, 0.0, 0.0],
-         [0.0, 0.0, 0.0],
-         [1.0, 0.0, 1.0]]
+        [[0.2, 0.8],
+         [0.2, 0.8],
+         [0.0, 0.0],
+         [0.0, 0.0],
+         [0.0, 0.0]],
+        [[0.8, 0.2],
+         [0.0, 0.0],
+         [0.2, 0.8],
+         [0.0, 0.0],
+         [0.0, 0.0]],
+        [[0.0, 0.0],
+         [0.8, 0.2],
+         [0.0, 0.0],
+         [0.2, 0.8],
+         [0.0, 0.0]],
+        [[0.0, 0.0],
+         [0.0, 0.0],
+         [0.8, 0.2],
+         [0.0, 0.0],
+         [0.2, 0.8]],
+        [[0.0, 0.0],
+         [0.0, 0.0],
+         [0.0, 0.0],
+         [0.8, 0.2],
+         [0.8, 0.2]]
     ]
     pmt = np.array(pmt)
-    #fr = [2, 1, -1]
+    fr = [-10, 0, -0.4, -0.4, 10]
+    '''
     fr = [
         [[9, 0, 0],
          [0, 0, 0],
@@ -203,8 +204,9 @@ else:
          [0, 0, 0],
          [0, 0, 0]],
     ]
-    names_s = ['s1', 's2', 's3', 's4', 's5']
-    names_a = ['a1', 'a2', 'a3']
+    '''
+    names_s = ['sf1', 's1', 's2', 's3', 'sf2']
+    names_a = ['->', '<-']
     print("fmt:")
     print(pmt)
     print("fr:")
