@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # global variables
-deterministic = False
-gamma = 0.7
-actions = 3
+deterministic = True
+gamma = 0.8
+actions = 2
 states = 5
 eps = 0.01
 
@@ -34,18 +34,20 @@ def plot_figs(fig, states, actions, xs, ys, axes, names_s, names_a):
             axes[a, s].set_title(f"Q({names_s[s]}, {names_a[a]})")
             axes[a, s].set_ylim(y_min - (y_min * 0.05), y_max + (y_max * 0.05))
     fig.tight_layout()
-    plt.savefig('q-hw4-' + 'non'*(not deterministic) + 'det.png', dpi=500)
+    plt.savefig('q-hw5-' + 'non'*(not deterministic) + 'det.png', dpi=500)
     plt.show()
 
 if deterministic:
 
-    fmt = [[1, 2, 3],
-           [1, 2, 1],
-           [2, 2, 4],
-           [3, 2, 3],
-           [3, 4, 4]]
+    fmt = [[1, 0],
+           [2, 0],
+           [3, 1],
+           [4, 2],
+           [4, 3]]
     fmt = np.array(fmt)
-    #fr = [2, 1, -1, 10]
+    fr = [-10, 0, -0.4, -0.4, 10]
+
+    '''
     fr = [
         [[0, 0, 0],
          [0, 0, 0],
@@ -73,8 +75,9 @@ if deterministic:
          [0, 0, 0],
          [0, 0, 0]],
     ]
-    names_s = ['s1', 's2', 's3', 's4', 's5']
-    names_a = ['a1', 'a2', 'a3']
+    '''
+    names_s = ['sf1', 's1', 's2', 's3', 'sf2']
+    names_a = ['->', '<-']
     print("fmt:")
     print(fmt)
     print("fr:")
