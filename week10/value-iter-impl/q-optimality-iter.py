@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 # global variables
 deterministic = False
-gamma = 0.0
+gamma = 0.6
 actions = 2
 states = 5
 eps = 0.01
