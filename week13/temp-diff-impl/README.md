@@ -55,3 +55,25 @@
     Optimal politic so far:
     sf1 = ->,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
     ```
+
+    - Non-deterministic
+
+    ```
+    Optimal politic so far:
+    sf1 = ->,       s1 = ->,        s2 = <-,        s3 = <-,        sf2 = <-,
+    Optimal politic so far:
+    sf1 = <-,       s1 = <-,        s2 = <-,        s3 = <-,        sf2 = <-,
+    Optimal politic so far:
+    sf1 = <-,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
+    Optimal politic so far:
+    sf1 = ->,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
+    ==========================
+    Iteration 12, cycle 3:
+    fr: [-10, 0, -0.4, -0.4, 10]
+    sf1     s1      s2      s3      sf2
+    Q(s,a) final
+    -1.85   -1.78   4.80    7.71    6.82
+    -5.88   -6.00   0.10    0.46    0.39
+    Optimal politic so far:
+    sf1 = ->,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
+    ```

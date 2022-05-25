@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-deterministic = True
+deterministic = False
 gamma = 0.9
 alpha = 0.8
 
@@ -176,35 +176,33 @@ else:
     init = 1
     final = [0, 4]
 
-    vs = [(random.uniform(0.05, 0.95), 0) for i in range(states)]
+    qsa = np.zeros((actions, states), dtype=float)
+    for i in range(actions):
+        for j in range(states):
+            qsa[i, j] = random.uniform(0.05, 0.95)
     politic = [1 for s in range(states)]
 
     s = 1
     iter = 1
     c = 0
     while True:
-        v_max = 0.0
-        action = 0
+        col = qsa[:, s]
+        action = list(col).index(max(col))
+        sf = rand_state(pmt, s, action)
+        # q_max is the max(af)(sf, af) term
+        q_max = 0.0
         for a in range(actions):
-            v = 0.0
-            for sfi in range(states):
-                p = pmt[sfi, s, a]
-                #r = fr[sfi]
-                r = get_r(fr, sfi, s, a)
-                v += p * (r + (gamma * vs[sfi][0]))
-            if v > v_max:
-                action = a
-                v_max = v
-        v2 = 0.0
+            if qsa[a, sf] > q_max:
+                q_max = qsa[a, sf]
+        # now qsf is the sum of s terms of p * (r + gamma * q_max)
+        qsf = 0.0
         for sfi in range(states):
             p = pmt[sfi, s, action]
-            #r = fr[sfi]
             r = get_r(fr, sfi, s, action)
-            v2 += p * (r + (gamma * vs[sfi][0]))
-        new_vs = vs[s][0] + alpha * (v2 - vs[s][0])
-        vs[s] = (new_vs, action)
+            qsf += p * (r + gamma * q_max)
+        new_qsa = qsa[action, s] + alpha * (qsf - qsa[action, s])
+        qsa[action, s] = new_qsa
         politic[s] = action
-        sf = rand_state(pmt, s, action)
         if s in final:
             # new cycle
             print("Optimal politic so far:")
@@ -222,7 +220,7 @@ else:
             s = sf
         iter += 1
     print_head(iter, fr, names_s, c)
-    print_vs(vs, 'final')
+    print_qsa(qsa, 'final')
     print("Optimal politic so far:")
     for si in range(states):
         print(f"{names_s[si]} = {names_a[politic[si]]},", end='\t')
