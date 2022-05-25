@@ -35,3 +35,23 @@
     Optimal politic so far:
     sf1 = ->,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
     ```
+
+- q(s, a) version [here](./q-temp-diff.py)
+
+    - Deterministic
+
+    ```
+    Optimal politic so far:
+    sf1 = ->,       s1 = <-,        s2 = <-,        s3 = <-,        sf2 = <-,
+    Optimal politic so far:
+    sf1 = ->,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
+    ==========================
+    Iteration 12, cycle 1:
+    fr: [-10, 0, -0.4, -0.4, 10]
+    sf1     s1      s2      s3      sf2
+    Q(s,a) final
+    0.20    -0.32   -0.09   8.46    8.51
+    0.26    -7.42   0.03    -0.13   0.28
+    Optimal politic so far:
+    sf1 = ->,       s1 = ->,        s2 = ->,        s3 = ->,        sf2 = ->,
+    ```
