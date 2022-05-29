@@ -106,16 +106,15 @@ if deterministic:
         action = 0
         for a in range(actions):
             sf = fmt[s, a]
-            #r = fr[sf]
             r = get_r(fr, sf, s, a)
             v = r + (gamma * vs[sf][0])
             if v > v_max:
                 action = a
                 v_max = v
         sf = fmt[s, action]
-        #r = fr[sf]
         r = get_r(fr, sf, s, action)
         new_vs = vs[s][0] + alpha * ((r + gamma * vs[sf][0]) - vs[s][0])
+        print(f'V({s}) = {vs[s]} -> {new_vs}')
         vs[s] = (new_vs, action)
         politic[s] = action
         if s in final:
@@ -202,6 +201,7 @@ else:
             r = get_r(fr, sfi, s, action)
             v2 += p * (r + (gamma * vs[sfi][0]))
         new_vs = vs[s][0] + alpha * (v2 - vs[s][0])
+        print(f'V({s}) = {vs[s]} -> {new_vs}')
         vs[s] = (new_vs, action)
         politic[s] = action
         sf = rand_state(pmt, s, action)

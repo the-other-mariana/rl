@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-deterministic = False
+deterministic = True
 gamma = 0.9
 alpha = 0.8
 
@@ -116,6 +116,7 @@ if deterministic:
                 q_max = qsa[a, sf]
         qsf = r + gamma * q_max
         new_qsa = qsa[action, s] + alpha * (qsf - qsa[action, s])
+        print(f'Q({s}, {action}) = {qsa[action, s]} -> {new_qsa}')
         qsa[action, s] = new_qsa
         politic[s] = action
         if s in final:
@@ -201,8 +202,10 @@ else:
             r = get_r(fr, sfi, s, action)
             qsf += p * (r + gamma * q_max)
         new_qsa = qsa[action, s] + alpha * (qsf - qsa[action, s])
+        print(f'Q({s}, {action}) = {qsa[action, s]} -> {new_qsa}')
         qsa[action, s] = new_qsa
         politic[s] = action
+
         if s in final:
             # new cycle
             print("Optimal politic so far:")
