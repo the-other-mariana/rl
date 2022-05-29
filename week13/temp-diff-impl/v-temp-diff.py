@@ -2,8 +2,8 @@ import numpy as np
 import random
 
 deterministic = True
-gamma = 0.9
-alpha = 0.8
+gamma = 0.8
+alpha = 0.9
 
 actions = 2
 states = 5
@@ -96,6 +96,7 @@ if deterministic:
     final = [0, 4]
 
     vs = [(random.uniform(0.05, 0.95), 0) for i in range(states)]
+    #vs = [(0.15, 0), (0.83, 0), (0.54, 0), (0.67, 0), (0.91, 0)]
     politic = [1 for s in range(states)]
 
     s = 1
@@ -119,7 +120,7 @@ if deterministic:
         politic[s] = action
         if s in final:
             # new cycle
-            print("Optimal politic so far:")
+            print("[CYCLE] Optimal politic so far:")
             for i in range(states):
                 print(f"{names_s[i]} = {names_a[politic[i]]},", end='\t')
             print()
@@ -135,7 +136,7 @@ if deterministic:
         iter += 1
     print_head(iter, fr, names_s, c)
     print_vs(vs, 'final')
-    print("Optimal politic so far:")
+    print("[FINAL] Optimal politic so far:")
     for si in range(states):
         print(f"{names_s[si]} = {names_a[politic[si]]},", end='\t')
     print()
@@ -207,7 +208,7 @@ else:
         sf = rand_state(pmt, s, action)
         if s in final:
             # new cycle
-            print("Optimal politic so far:")
+            print("[CYCLE] Optimal politic so far:")
             for i in range(states):
                 print(f"{names_s[i]} = {names_a[politic[i]]},", end='\t')
             print()
@@ -223,7 +224,7 @@ else:
         iter += 1
     print_head(iter, fr, names_s, c)
     print_vs(vs, 'final')
-    print("Optimal politic so far:")
+    print("[FINAL] Optimal politic so far:")
     for si in range(states):
         print(f"{names_s[si]} = {names_a[politic[si]]},", end='\t')
     print()
